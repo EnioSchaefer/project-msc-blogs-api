@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv/config');
 const { userService } = require('../services');
 
+const secret = process.env.JWT_SECRET;
+
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -14,8 +16,8 @@ const userLogin = async (req, res) => {
 
     const { password: _, ...userWithoutPassword } = user.dataValues;
 
-    const token = jwt.sign({ data: userWithoutPassword },
-      process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '15min' });
+    const token = jwt.sign({ payload: userWithoutPassword },
+      secret, { algorithm: 'HS256', expiresIn: '30s' });
 
     return res.status(200).json({ token });
   } catch (err) {
@@ -26,7 +28,6 @@ const userLogin = async (req, res) => {
 const insertUser = async (req, res) => {
   try {
     const user = req.body;
-    console.log(user);
 
     const result = await userService.insertUser(user);
 
@@ -34,10 +35,27 @@ const insertUser = async (req, res) => {
 
     const { password: _, ...userWithoutPassword } = user;
 
-    const token = jwt.sign({ data: userWithoutPassword },
-      process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '15min' });
+    const token = jwt.sign({ payload: userWithoutPassword },
+      secret, { algorithm: 'HS256', expiresIn: '15min' });
 
     return res.status(201).json({ token });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await userService.getAllUsers();
+
+    if (!users) return res.status(500).json({ message: 'Internal error' });
+
+    const usersWithoutPassword = users.map((user) => {
+      const { password: _, ...cleanUser } = user.dataValues;
+      return cleanUser;
+    });
+
+    return res.status(200).json(usersWithoutPassword);
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -46,4 +64,5 @@ const insertUser = async (req, res) => {
 module.exports = {
   userLogin,
   insertUser,
+  getAllUsers,
 };

@@ -18,8 +18,15 @@ const insertUser = async (user) => {
   return result;
 };
 
+const getAllUsers = async () => {
+  const users = await User.findAll();
+
+  return users;
+};
+
 module.exports = {
   getEmails,
   getByEmail,
   insertUser,
+  getAllUsers,
 };
