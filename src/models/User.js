@@ -4,11 +4,15 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const users = sequelize.define('User', {
-    id: DataTypes.INTEGER,
+    id: { allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER },
     display_name: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: { unique: true, type: DataTypes.STRING },
     password: DataTypes.STRING,
     image: DataTypes.STRING
+  }, {
+    timestamps: false,
+    underscored: true
   })
+  console.log(users);
   return users;
 };

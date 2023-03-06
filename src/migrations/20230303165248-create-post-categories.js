@@ -4,15 +4,15 @@ module.exports = {
     await queryInterface.createTable('posts_categories', {
       post_id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true
+        foreignKey: true,
+        type: Sequelize.INTEGER
       },
       category_id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true
+        foreignKey: true,
+        type: Sequelize.INTEGER
       }
     });
   },
