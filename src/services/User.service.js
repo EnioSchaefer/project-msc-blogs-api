@@ -6,6 +6,12 @@ const getEmails = async () => {
   return emails;
 };
 
+const getIds = async () => {
+  const ids = await User.findAll({ attributes: ['id'] });
+
+  return ids;
+};
+
 const getByEmail = async (email) => {
   const login = await User.findOne({ where: { email } });
 
@@ -24,9 +30,17 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+
+  return user;
+};
+
 module.exports = {
   getEmails,
+  getIds,
   getByEmail,
   insertUser,
   getAllUsers,
+  getUserById,
 };

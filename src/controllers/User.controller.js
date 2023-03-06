@@ -17,7 +17,7 @@ const userLogin = async (req, res) => {
     const { password: _, ...userWithoutPassword } = user.dataValues;
 
     const token = jwt.sign({ payload: userWithoutPassword },
-      secret, { algorithm: 'HS256', expiresIn: '30s' });
+      secret, { algorithm: 'HS256', expiresIn: '15min' });
 
     return res.status(200).json({ token });
   } catch (err) {
@@ -61,8 +61,26 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const numberId = Number(id);
+
+    const user = await userService.getUserById(numberId);
+
+    if (!user) return res.status(500).json({ message: 'Internal error' });
+
+    const { password: _, ...userWithoutPassword } = user.dataValues;
+
+    return res.status(200).json(userWithoutPassword);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
 module.exports = {
   userLogin,
   insertUser,
   getAllUsers,
+  getUserById,
 };
