@@ -16,7 +16,13 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        foreignKey: true
+        foreignKey: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       published: {
         type: Sequelize.DATE
