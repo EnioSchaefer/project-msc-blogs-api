@@ -12,13 +12,18 @@ module.exports = (sequelize, DataTypes) => {
     updated: DataTypes.DATE
   }, {
     timestamps: false,
+    tableName: 'blog_posts',
     underscored: true
   })
-  blogPosts.associate = (models) => {
-    blogPosts.belongsTo(models.User, {
+  blogPosts.associate = ({ User, PostCategory }) => {
+    blogPosts.belongsTo(User, {
       foreignKey: 'userId',
-      as: 'postUser',
-    })
+      as: 'user',
+    }),
+      blogPosts.hasMany(PostCategory, {
+        foreignKey: 'postId',
+        as: 'posts_categories'
+      })
   }
   return blogPosts;
 };
