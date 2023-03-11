@@ -1,10 +1,5 @@
 const { BlogPost, User, Category } = require('../models');
 
-// const insertPost = async (post) => {
-//   const { title, content, categories } = post;
-//   const result = await BlogPost.create({  });
-// };
-
 const getAllPosts = async () => {
   const posts = await BlogPost.findAll({
     include: [
@@ -12,12 +7,20 @@ const getAllPosts = async () => {
       { model: Category, as: 'categories' },
     ],
   });
-
-  console.log(posts);
   return posts;
 };
 
+const getById = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  return post;
+};
+
 module.exports = {
-  // insertPost,
   getAllPosts,
+  getById,
 };
