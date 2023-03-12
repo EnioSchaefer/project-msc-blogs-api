@@ -8,6 +8,7 @@ const validateUser = require('../middlewares/validateUser');
 
 const blogPostRoutes = express.Router();
 
+// blogPostRoutes.get('/search', authorizeToken, blogPostController.searchPost);
 blogPostRoutes.get('/', authorizeToken, blogPostController.getAllPosts);
 blogPostRoutes.get('/:id', authorizeToken, blogPostController.getPostById);
 blogPostRoutes.post('/', authorizeToken, validatePostBody,
