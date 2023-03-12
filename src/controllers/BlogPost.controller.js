@@ -52,9 +52,23 @@ const editPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await blogPostService.deletePost(id);
+    if (result === 0) return res.status(404).json({ message: 'Post does not exist' });
+
+    return res.status(204).end();
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   insertPost,
   editPost,
+  deletePost,
 };
