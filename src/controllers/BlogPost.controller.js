@@ -1,5 +1,18 @@
 const { blogPostService } = require('../services');
 
+const insertPost = async (req, res) => {
+  try {
+    const { id } = req.userData;
+    const post = req.body;
+
+    const result = await blogPostService.insertPost(id, post);
+
+    return res.status(201).json(result);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
 const getAllPosts = async (req, res) => {
   try {
     const posts = await blogPostService.getAllPosts();
@@ -26,4 +39,5 @@ const getPostById = async (req, res) => {
 module.exports = {
   getAllPosts,
   getPostById,
+  insertPost,
 };

@@ -17,7 +17,7 @@ const userLogin = async (req, res) => {
     const { password: _, ...userWithoutPassword } = user.dataValues;
 
     const token = jwt.sign({ payload: userWithoutPassword },
-      secret, { algorithm: 'HS256', expiresIn: '15min' });
+      secret, { algorithm: 'HS256', expiresIn: '1d' });
 
     return res.status(200).json({ token });
   } catch (err) {
@@ -36,7 +36,7 @@ const insertUser = async (req, res) => {
     const { password: _, ...userWithoutPassword } = user;
 
     const token = jwt.sign({ payload: userWithoutPassword },
-      secret, { algorithm: 'HS256', expiresIn: '15min' });
+      secret, { algorithm: 'HS256', expiresIn: '1d' });
 
     return res.status(201).json({ token });
   } catch (err) {

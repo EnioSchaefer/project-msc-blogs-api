@@ -25,9 +25,11 @@ module.exports = {
         onUpdate: 'CASCADE'
       },
       published: {
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
       updated: {
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       }
     });
