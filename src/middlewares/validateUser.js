@@ -1,6 +1,6 @@
 const { blogPostService } = require('../services');
 
-const validatePostOwner = async (req, res, next) => {
+const validateUser = async (req, res, next) => {
   const { id: postID } = req.params;
   const { id: userId } = req.userData;
 
@@ -10,4 +10,4 @@ const validatePostOwner = async (req, res, next) => {
   return next();
 };
 
-module.exports = validatePostOwner;
+module.exports = validateUser;
