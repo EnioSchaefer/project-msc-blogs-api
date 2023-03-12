@@ -36,8 +36,25 @@ const getPostById = async (req, res) => {
   }
 };
 
+const editPost = async (req, res) => {
+  try {
+    const editInfo = req.body;
+    const { id } = req.params;
+
+    const result = await blogPostService.editPost(editInfo, id);
+    if (!result) return null;
+
+    const editedPost = await blogPostService.getById(id);
+
+    return res.status(200).json(editedPost);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
 module.exports = {
   getAllPosts,
   getPostById,
   insertPost,
+  editPost,
 };
